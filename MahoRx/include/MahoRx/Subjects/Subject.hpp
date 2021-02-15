@@ -3,6 +3,7 @@
 #include <optional>
 #include "ISubject.hpp"
 #include "../System/IDisposable.hpp"
+#include "../System/Observer.hpp"
 
 namespace mahorx
 {
@@ -24,7 +25,7 @@ namespace mahorx
             void dispose() override
             {
                 if (m_parent != nullptr) {
-                    std::erase(m_parent->m_observers, m_parent);
+                    std::erase(m_parent->m_observers, m_observer);
                     m_parent = nullptr;
                     m_observer = nullptr;
                 }
@@ -87,6 +88,36 @@ namespace mahorx
             }
 
             return std::make_shared<DisposableEmpty>();
+        }
+
+        std::shared_ptr<IDisposable> subscribe(const std::function<void(const T&)>& onNext)
+        {
+            return subscribe(std::make_shared<Observer::Subscribe<T>>(onNext));
+        }
+        std::shared_ptr<IDisposable> subscribe(
+            const std::function<void(const T&)>& onNext,
+            const std::function<void(std::exception)>& onError
+        ) {
+            return subscribe(std::make_shared<Observer::Subscribe<T>>(onNext, onError));
+        }
+        std::shared_ptr<IDisposable> subscribe(
+            const std::function<void(const T&)>& onNext,
+            const std::function<void()>& onCompleted
+        ) {
+            return subscribe(std::make_shared<Observer::Subscribe<T>>(onNext, onCompleted));
+        }
+        std::shared_ptr<IDisposable> subscribe(
+            const std::function<void(const T&)>& onNext,
+            const std::function<void(std::exception)>& onError,
+            const std::function<void()>& onCompleted
+        ) {
+            return subscribe(std::make_shared<Observer::Subscribe<T>>(onNext, onError, onCompleted));
+        }
+
+        void dispose() final
+        {
+            m_isDisposed = true;
+            m_observers.clear();
         }
     private:
         void throwIfDisposed()

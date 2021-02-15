@@ -11,16 +11,19 @@ namespace mahorx
         {
         public:
             Subscribe() = default;
+
             Subscribe(const std::function<void(const T&)>& onNext):
                 m_onNext(onNext)
             {}
+
             Subscribe(
                 const std::function<void(const T&)>& onNext,
                 const std::function<void(std::exception)>& onError
             ) :
                 m_onNext(onNext),
-                m_onError(onError),
+                m_onError(onError)
             {}
+
             Subscribe(
                 const std::function<void(const T&)>& onNext,
                 const std::function<void()>& onCompleted
@@ -28,6 +31,7 @@ namespace mahorx
                 m_onNext(onNext),
                 m_onCompleted(onCompleted)
             {}
+
             Subscribe(
                 const std::function<void(const T&)>& onNext,
                 const std::function<void(std::exception)>& onError,
