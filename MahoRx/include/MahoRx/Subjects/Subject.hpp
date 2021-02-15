@@ -24,15 +24,23 @@ namespace mahorx
 
             void dispose() override
             {
-                if (m_parent != nullptr) {
-                    std::erase(m_parent->m_observers, m_observer);
-                    m_parent = nullptr;
-                    m_observer = nullptr;
+                if (m_parent.expired()) {
+                    return;
+                }
+                if (m_observer.expired()) [[unlikly]] {
+                    return;
+                }
+                if (auto lockParent = m_parent.lock()) {
+                    if (auto lockOvserver = m_observer.lock()) {
+                        std::erase(lockParent->m_observers, lockOvserver);
+                    }
+                    m_parent.reset();
+                    m_observer.reset();
                 }
             }
         private:
-            std::shared_ptr<Subject<T>> m_parent;
-            std::shared_ptr<IObserver<T>> m_observer;
+            std::weak_ptr<Subject<T>> m_parent;
+            std::weak_ptr<IObserver<T>> m_observer;
         };
     public:
         void onNext(const T& value) override
