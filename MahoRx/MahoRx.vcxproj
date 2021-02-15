@@ -143,6 +143,12 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="include\MahoRx.hpp" />
+    <ClInclude Include="include\MahoRx\Fwd.hpp" />
+    <ClInclude Include="include\MahoRx\Subjects\ISubject.hpp" />
+    <ClInclude Include="include\MahoRx\Subjects\Subject.hpp" />
+    <ClInclude Include="include\MahoRx\System\IObservable.hpp" />
+    <ClInclude Include="include\MahoRx\System\IObserver.hpp" />
+    <ClInclude Include="include\MahoRx\System\IDisposable.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="examples\main.cpp" />
