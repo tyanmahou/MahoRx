@@ -27,11 +27,11 @@ namespace mahorx
                 if (m_parent.expired()) {
                     return;
                 }
-                if (m_observer.expired()) [[unlikly]] {
+                if (m_observer.expired()) [[unlikely]] {
                     return;
                 }
-                if (auto lockParent = m_parent.lock()) {
-                    if (auto lockOvserver = m_observer.lock()) {
+                if (auto lockParent = m_parent.lock()) [[likely]] {
+                    if (auto lockOvserver = m_observer.lock()) [[likely]] {
                         std::erase(lockParent->m_observers, lockOvserver);
                     }
                     m_parent.reset();
