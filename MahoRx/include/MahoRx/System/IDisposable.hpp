@@ -11,4 +11,12 @@ namespace mahorx
         virtual~IDisposable() = default;
         virtual void dispose() = 0;
     };
+
+    class DisposableEmpty final : public IDisposable
+    {
+    public:
+        void dispose() final
+        {}
+
+    };
 }

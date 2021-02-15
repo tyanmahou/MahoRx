@@ -1,35 +1,104 @@
 #pragma once
 #include <vector>
+#include <optional>
 #include "ISubject.hpp"
+#include "../System/IDisposable.hpp"
 
 namespace mahorx
 {
     template<class T>
-    class Subject : public ISubject<T>
+    class Subject final : 
+        public ISubject<T>,
+        public IDisposable,
+        public std::enable_shared_from_this<Subject<T>>
     {
     public:
-        void onNext(const T& value) const override
+        class Subscription : public IDisposable
         {
-            if (m_isStopped) {
-                return;
+        public:
+            Subscription(const std::shared_ptr<Subject<T>>& parent, const std::shared_ptr<IObserver<T>>& observer) :
+                m_parent(parent),
+                m_observer(observer)
+            {}
+
+            void dispose() override
+            {
+                if (m_parent != nullptr) {
+                    std::erase(m_parent->m_observers, m_parent);
+                    m_parent = nullptr;
+                    m_observer = nullptr;
+                }
             }
+        private:
+            std::shared_ptr<Subject<T>> m_parent;
+            std::shared_ptr<IObserver<T>> m_observer;
+        };
+    public:
+        void onNext(const T& value) override
+        {
             for (const auto& observer : m_observers) {
                 observer->onNext(value);
             }
         }
-        void onError(std::exception error) const override
+        void onError(std::exception error)  override
         {
+            throwIfDisposed();
             if (m_isStopped) {
                 return;
             }
+            m_isStopped = true;
             m_error = error;
             for (const auto& observer : m_observers) {
                 observer->onError(error);
             }
+            m_observers.clear();
+        }
+        void onCompleted() override
+        {
+            throwIfDisposed();
+            if (m_isStopped) {
+                return;
+            }
+            m_isStopped = true;
+            for (const auto& observer : m_observers) {
+                observer->onCompleted();
+            }
+            m_observers.clear();
+        }
+
+        std::shared_ptr<IDisposable> subscribe(const std::shared_ptr<IObserver<T>>& observer) override
+        {
+            if (!observer) {
+                throw std::exception("observer is null");
+            }
+            throwIfDisposed();
+            if (!m_isStopped) {
+                m_observers.push_back(observer);
+                return std::make_shared<Subscription>(this->shared_from_this(), observer);
+            }
+            if (m_error) {
+                for (const auto& observer : m_observers) {
+                    observer->onError(*m_error);
+                }
+            } else {
+                for (const auto& observer : m_observers) {
+                    observer->onCompleted();
+                }
+            }
+
+            return std::make_shared<DisposableEmpty>();
         }
     private:
-        std::exception m_error;
+        void throwIfDisposed()
+        {
+            if (m_isDisposed) {
+                throw std::exception("already disposed");
+            }
+        }
+    private:
+        std::optional<std::exception> m_error;
         std::vector<std::shared_ptr<IObserver<T>>> m_observers;
         bool m_isStopped = false;
+        bool m_isDisposed = false;
     };
 }

@@ -12,8 +12,8 @@ namespace mahorx
     public:
         virtual ~IObserver() = default;
 
-        virtual void onNext(const T& value) const = 0;
-        virtual void onError(std::exception error) const = 0;
-        virtual void onCompleted() const = 0;
+        virtual void onNext(const T& value) = 0;
+        virtual void onError(std::exception error) = 0;
+        virtual void onCompleted() = 0;
     };
 }
