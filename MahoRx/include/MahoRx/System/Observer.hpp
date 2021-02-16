@@ -67,52 +67,80 @@ namespace mahorx
     constexpr struct Subscribe_Fn
     {
         template<class Func>
-        struct Args
+        struct ArgsOnNextError;
+
+        template<class Func>
+        struct ArgsOnNextCompleted;
+
+        template<class Func>
+        struct ArgsOnNextErrorCompleted;
+
+        template<class Func>
+        struct ArgsOnNext
         {
-            Func func;
-        };
-        template<class Func, class Func2>
-        struct Args2
-        {
-            Func func;
-            Func2 func2;
-        };
-        template<class Func, class Func2, class Func3>
-        struct Args3
-        {
-            Func func;
-            Func2 func2;
-            Func3 func3;
+            Func onNext;
+
+            ArgsOnNextError<Func> onError(const std::function<void(std::exception)>& onError) const
+            {
+                return { onNext, onError };
+            }
+
+            ArgsOnNextCompleted<Func> onCompleted(const std::function<void()>& onCompleted) const
+            {
+                return { onNext, onCompleted };
+            }
         };
         template<class Func>
-        Args<Func> operator()(const Func& func) const
+        struct ArgsOnNextError
         {
-            return { func };
+            Func onNext;
+            std::function<void(std::exception)> onError;
+
+            ArgsOnNextErrorCompleted<Func> onCompleted(const std::function<void()>& onCompleted) const
+            {
+                return { onNext, onError, onCompleted };
+            }
+        };
+        template<class Func>
+        struct ArgsOnNextCompleted
+        {
+            Func onNext;
+            std::function<void()> onCompleted;
+        };
+        template<class Func>
+        struct ArgsOnNextErrorCompleted
+        {
+            Func onNext;
+            std::function<void(std::exception)> onError;
+            std::function<void()> onCompleted;
+        };
+
+
+        template<class Func>
+        ArgsOnNext<Func> onNext(const Func& onNext) const
+        {
+            return { onNext };
         }
-        template<class Func, class Func2>
-        Args2<Func, Func2> operator()(const Func& func, const Func2& func2) const
+
+        template<class T, class Func>
+        friend auto operator | (const T& source, const ArgsOnNext<Func>& args)
         {
-            return { func, func2};
-        }
-        template<class Func, class Func2, class Func3>
-        Args3<Func, Func2, Func3> operator()(const Func& func, const Func2& func2, const Func3& func3) const
-        {
-            return { func, func2, func3 };
+            return source->subscribe(std::make_shared<Subscribe<T::element_type::out_type>>(args.onNext));
         }
         template<class T, class Func>
-        friend auto operator | (const T& source, const Args<Func>& args)
+        friend auto operator | (const T& source, const ArgsOnNextError<Func>& args)
         {
-            return source->subscribe(std::make_shared<Subscribe<T::element_type::out_type>>(args.func));
+            return source->subscribe(std::make_shared<Subscribe<T::element_type::out_type>>(args.onNext, args.onError));
         }
-        template<class T, class Func, class Func2>
-        friend auto operator | (const T& source, const Args2<Func, Func2>& args)
+        template<class T, class Func>
+        friend auto operator | (const T& source, const ArgsOnNextCompleted<Func>& args)
         {
-            return source->subscribe(std::make_shared<Subscribe<T::element_type::out_type>>(args.func, args.func2));
+            return source->subscribe(std::make_shared<Subscribe<T::element_type::out_type>>(args.onNext, args.onCompleted));
         }
-        template<class T, class Func, class Func2, class Func3>
-        friend auto operator | (const T& source, const Args3<Func, Func2, Func3>& args)
+        template<class T, class Func>
+        friend auto operator | (const T& source, const ArgsOnNextErrorCompleted<Func>& args)
         {
-            return source->subscribe(std::make_shared<Subscribe<T::element_type::out_type>>(args.func, args.func2, args.func3));
+            return source->subscribe(std::make_shared<Subscribe<T::element_type::out_type>>(args.onNext, args.onError, args.onCompleted));
         }
     }subscribe;
 }

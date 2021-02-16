@@ -12,7 +12,7 @@ int main()
 
     subject | where([](int a) {
         return a > 0;
-    }) | subscribe([](int a) {
+    }) | subscribe.onNext([](int a) {
         std::cout << a << std::endl;
     });
 
