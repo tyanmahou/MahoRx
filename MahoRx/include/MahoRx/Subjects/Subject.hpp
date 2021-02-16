@@ -24,33 +24,28 @@ namespace mahorx
 
             void dispose() override
             {
-                if (m_parent.expired()) {
+                if (!m_parent) {
                     return;
                 }
-                if (m_observer.expired()) [[unlikely]] {
+                if (!m_observer) [[unlikely]] {
                     return;
                 }
-                if (auto lockParent = m_parent.lock()) [[likely]] {
-                    if (auto lockOvserver = m_observer.lock()) [[likely]] {
-                        for (auto it = lockParent->m_observers.begin(); it != lockParent->m_observers.end(); ++it) {
-                            if (*it == lockOvserver) {
-                                lockParent->m_observers.erase(it);
-                                break;
-                            }
-                        }
+                for (auto it = m_parent->m_observers.begin(); it != m_parent->m_observers.end(); ++it) {
+                    if (*it == m_observer) {
+                        m_parent->m_observers.erase(it);
+                        break;
                     }
-                    m_parent.reset();
-                    m_observer.reset();
                 }
             }
         private:
-            std::weak_ptr<Subject<T>> m_parent;
-            std::weak_ptr<IObserver<T>> m_observer;
+            std::shared_ptr<Subject<T>> m_parent;
+            std::shared_ptr<IObserver<T>> m_observer;
         };
     public:
         void onNext(const T& value) override
         {
-            for (const auto& observer : m_observers) {
+            auto old = m_observers;
+            for (const auto& observer : old) {
                 observer->onNext(value);
             }
         }
