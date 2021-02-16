@@ -123,6 +123,12 @@ namespace mahorx
         }
 
         template<class T, class Func>
+        friend auto operator | (const T& source, const Subscribe_Fn& fn)
+        {
+            return source->subscribe(std::make_shared<Subscribe<T::element_type::out_type>>());
+        }
+
+        template<class T, class Func>
         friend auto operator | (const T& source, const ArgsOnNext<Func>& args)
         {
             return source->subscribe(std::make_shared<Subscribe<T::element_type::out_type>>(args.onNext));
