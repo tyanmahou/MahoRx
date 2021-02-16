@@ -2,7 +2,7 @@
 #include <vector>
 #include <optional>
 #include "ISubject.hpp"
-#include "../System/IDisposable.hpp"
+#include "../Disposables/EmptyDisposable.hpp"
 #include "../System/Observer.hpp"
 
 namespace mahorx
@@ -96,30 +96,6 @@ namespace mahorx
             }
 
             return std::make_shared<DisposableEmpty>();
-        }
-
-        std::shared_ptr<IDisposable> subscribe(const std::function<void(const T&)>& onNext)
-        {
-            return subscribe(std::make_shared<Observer::Subscribe<T>>(onNext));
-        }
-        std::shared_ptr<IDisposable> subscribe(
-            const std::function<void(const T&)>& onNext,
-            const std::function<void(std::exception)>& onError
-        ) {
-            return subscribe(std::make_shared<Observer::Subscribe<T>>(onNext, onError));
-        }
-        std::shared_ptr<IDisposable> subscribe(
-            const std::function<void(const T&)>& onNext,
-            const std::function<void()>& onCompleted
-        ) {
-            return subscribe(std::make_shared<Observer::Subscribe<T>>(onNext, onCompleted));
-        }
-        std::shared_ptr<IDisposable> subscribe(
-            const std::function<void(const T&)>& onNext,
-            const std::function<void(std::exception)>& onError,
-            const std::function<void()>& onCompleted
-        ) {
-            return subscribe(std::make_shared<Observer::Subscribe<T>>(onNext, onError, onCompleted));
         }
 
         void dispose() final

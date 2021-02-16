@@ -144,16 +144,22 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="include\MahoRx.hpp" />
+    <ClInclude Include="include\MahoRx\Disposables\EmptyDisposable.hpp" />
+    <ClInclude Include="include\MahoRx\Disposables\SingleAssignDisposable.hpp" />
     <ClInclude Include="include\MahoRx\Fwd.hpp" />
+    <ClInclude Include="include\MahoRx\Operators\OperatorObservableBase.hpp" />
+    <ClInclude Include="include\MahoRx\Operators\OperatorObserverBase.hpp" />
+    <ClInclude Include="include\MahoRx\Operators\Where.hpp" />
     <ClInclude Include="include\MahoRx\Subjects\ISubject.hpp" />
     <ClInclude Include="include\MahoRx\Subjects\Subject.hpp" />
     <ClInclude Include="include\MahoRx\System\IObservable.hpp" />
     <ClInclude Include="include\MahoRx\System\IObserver.hpp" />
-    <ClInclude Include="include\MahoRx\System\IDisposable.hpp" />
+    <ClInclude Include="include\MahoRx\Disposables\IDisposable.hpp" />
     <ClInclude Include="include\MahoRx\System\Observer.hpp" />
+    <ClInclude Include="include\MahoRx\Util\EmptyObserver.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="examples\main.cpp" />
+    <ClCompile Include="examples\Where\main.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

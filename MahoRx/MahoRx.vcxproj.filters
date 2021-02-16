@@ -18,9 +18,6 @@
     <ClInclude Include="include\MahoRx.hpp">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="include\MahoRx\System\IDisposable.hpp">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="include\MahoRx\System\IObserver.hpp">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
@@ -36,9 +33,33 @@
     <ClInclude Include="include\MahoRx\Subjects\ISubject.hpp">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
+    <ClInclude Include="include\MahoRx\System\Observer.hpp">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="include\MahoRx\Disposables\IDisposable.hpp">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="include\MahoRx\Disposables\EmptyDisposable.hpp">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="include\MahoRx\Operators\OperatorObservableBase.hpp">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="include\MahoRx\Operators\OperatorObserverBase.hpp">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="include\MahoRx\Util\EmptyObserver.hpp">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="include\MahoRx\Disposables\SingleAssignDisposable.hpp">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="include\MahoRx\Operators\Where.hpp">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="examples\main.cpp">
+    <ClCompile Include="examples\Where\main.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>

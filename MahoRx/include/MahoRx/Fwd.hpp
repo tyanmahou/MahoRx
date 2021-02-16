@@ -5,7 +5,6 @@ namespace mahorx
     //--------------------------------------------------------
     // System
     //--------------------------------------------------------
-    class IDisposable;
 
     template<class T>
     class IObserver;
@@ -13,7 +12,9 @@ namespace mahorx
     template<class T>
     class IObservable;
 
-    /// <summary>
-    /// 
-    /// </summary>
+    //--------------------------------------------------------
+    // Disposable
+    //--------------------------------------------------------
+
+    class IDisposable;
 }
