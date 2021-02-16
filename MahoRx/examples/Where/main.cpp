@@ -4,19 +4,23 @@
 
 int main()
 {
-    auto subject = std::make_shared<mahorx::Subject<int>>();
-    subject
-        | mahorx::Operators::where([](int a) {
+    using mahorx::Subject;
+    using mahorx::subscribe;
+    using mahorx::Operators::where;
+
+    auto subject = std::make_shared<Subject<int>>();
+
+    subject | where([](int a) {
         return a > 0;
-    })
-        | mahorx::subscribe([](int a) {
+    }) | subscribe([](int a) {
         std::cout << a << std::endl;
-    });
+    }); 
 
     subject->onNext(1);
     subject->onNext(-1);
     subject->onNext(2);
     subject->onCompleted();
 
-    // Hello MahoRx
+    std::cout << "end" << std::endl;
+    // 1, 2
 }
