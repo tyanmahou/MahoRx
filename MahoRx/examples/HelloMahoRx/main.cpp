@@ -4,8 +4,10 @@
 
 int main()
 {
-    auto subject = std::make_shared<mahorx::Subject<std::string>>();
-    subject->subscribe([](const std::string& s) {
+    using namespace mahorx;
+
+    auto subject = std::make_shared<Subject<std::string>>();
+    subject | subscribe([](const std::string& s) {
         std::cout << s;
     }, []() {
         std::cout << " MahoRx" << std::endl;
@@ -13,7 +15,7 @@ int main()
 
     subject->onNext("He");
 
-    auto subscription = subject->subscribe([](const std::string& s) {
+    auto subscription = subject | subscribe([](const std::string& s) {
         std::cout << s;
     });
 
