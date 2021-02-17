@@ -151,6 +151,8 @@
     <ClInclude Include="include\MahoRx\Operators\OperatorObservableBase.hpp" />
     <ClInclude Include="include\MahoRx\Operators\OperatorObserverBase.hpp" />
     <ClInclude Include="include\MahoRx\Operators\Where.hpp" />
+    <ClInclude Include="include\MahoRx\Schedulers\ImmediateScheduler.hpp" />
+    <ClInclude Include="include\MahoRx\Schedulers\ISchduler.hpp" />
     <ClInclude Include="include\MahoRx\Subjects\ISubject.hpp" />
     <ClInclude Include="include\MahoRx\Subjects\Subject.hpp" />
     <ClInclude Include="include\MahoRx\System\IObservable.hpp" />
