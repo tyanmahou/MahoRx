@@ -151,24 +151,4 @@ namespace mahorx::Operators
         std::shared_ptr<WhereObservable<T>> m_prarent;
         size_t m_index = 0;
     };
-
-    constexpr struct Where_Fn
-    {
-        template<class Pred>
-        struct Args
-        {
-            Pred pred;
-        };
-        template<class Pred>
-        Args<Pred> operator()(const Pred& pred) const
-        {
-            return { pred };
-        }
-
-        template<class T, class Pred>
-        friend auto operator | (const T& source, const Args<Pred>& args)
-        {
-            return std::make_shared<WhereObservable<T::element_type::out_type>>(source, args.pred);
-        }
-    }where;
 }

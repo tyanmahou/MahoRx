@@ -1,9 +1,3 @@
 #pragma once
 
-#include "MahoRx/Subjects/Subject.hpp"
-
-//--------------------------------------------------------
-// Operator
-//--------------------------------------------------------
-
-#include "MahoRx/Operators/Where.hpp"
+#include "MahoRx/Observable.hpp"

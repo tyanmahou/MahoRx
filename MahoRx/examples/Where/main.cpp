@@ -5,23 +5,21 @@
 int main()
 {
     using mahorx::Subject;
-    using mahorx::subscribe;
-    using mahorx::Operators::where;
 
-    auto subject = std::make_shared<Subject<int>>();
+    Subject<int> subject;
 
-    subject | where([](int a) {
+    subject.where([](int a) {
         return a > 0;
-    }) | subscribe.onNext([](int a) {
+    }).subscribe([](int a) {
         std::cout << a << std::endl;
     });
 
-    subject->onNext(1);
-    subject->onNext(-2);
-    subject->onNext(3);
-    subject->onNext(-4);
-    subject->onCompleted();
-    subject->dispose();
+    subject.onNext(1);
+    subject.onNext(-2);
+    subject.onNext(3);
+    subject.onNext(-4);
+    subject.onCompleted();
+    subject.dispose();
 
     // 1, 3
 }

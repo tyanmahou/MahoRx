@@ -3,21 +3,20 @@
 #include <optional>
 #include "ISubject.hpp"
 #include "../Disposables/EmptyDisposable.hpp"
-#include "../System/Subscriber.hpp"
 
 namespace mahorx
 {
     template<class T>
-    class Subject final : 
+    class SubjectImpl final : 
         public ISubject<T>,
         public IDisposable,
-        public std::enable_shared_from_this<Subject<T>>
+        public std::enable_shared_from_this<SubjectImpl<T>>
     {
     public:
         class Subscription : public IDisposable
         {
         public:
-            Subscription(const std::shared_ptr<Subject<T>>& parent, const std::shared_ptr<IObserver<T>>& observer) :
+            Subscription(const std::shared_ptr<SubjectImpl<T>>& parent, const std::shared_ptr<IObserver<T>>& observer) :
                 m_parent(parent),
                 m_observer(observer)
             {}
@@ -38,7 +37,7 @@ namespace mahorx
                 }
             }
         private:
-            std::shared_ptr<Subject<T>> m_parent;
+            std::shared_ptr<SubjectImpl<T>> m_parent;
             std::shared_ptr<IObserver<T>> m_observer;
         };
     public:
