@@ -33,9 +33,6 @@
     <ClInclude Include="include\MahoRx\Subjects\ISubject.hpp">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="include\MahoRx\System\Observer.hpp">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="include\MahoRx\Disposables\IDisposable.hpp">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
@@ -55,6 +52,9 @@
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="include\MahoRx\Operators\Where.hpp">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="include\MahoRx\System\Subscriber.hpp">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>

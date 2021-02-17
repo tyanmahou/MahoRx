@@ -155,7 +155,7 @@
     <ClInclude Include="include\MahoRx\System\IObservable.hpp" />
     <ClInclude Include="include\MahoRx\System\IObserver.hpp" />
     <ClInclude Include="include\MahoRx\Disposables\IDisposable.hpp" />
-    <ClInclude Include="include\MahoRx\System\Observer.hpp" />
+    <ClInclude Include="include\MahoRx\System\Subscriber.hpp" />
     <ClInclude Include="include\MahoRx\Util\EmptyObserver.hpp" />
   </ItemGroup>
   <ItemGroup>

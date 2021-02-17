@@ -3,7 +3,7 @@
 #include <optional>
 #include "ISubject.hpp"
 #include "../Disposables/EmptyDisposable.hpp"
-#include "../System/Observer.hpp"
+#include "../System/Subscriber.hpp"
 
 namespace mahorx
 {

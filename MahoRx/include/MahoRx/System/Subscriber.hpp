@@ -5,16 +5,16 @@
 namespace mahorx
 {
     template <class T>
-    class Subscribe final : public IObserver<T>
+    class Subscriber final : public IObserver<T>
     {
     public:
-        Subscribe() = default;
+        Subscriber() = default;
 
-        Subscribe(const std::function<void(const T&)>& onNext) :
+        Subscriber(const std::function<void(const T&)>& onNext) :
             m_onNext(onNext)
         {}
 
-        Subscribe(
+        Subscriber(
             const std::function<void(const T&)>& onNext,
             const std::function<void(std::exception)>& onError
         ) :
@@ -22,7 +22,7 @@ namespace mahorx
             m_onError(onError)
         {}
 
-        Subscribe(
+        Subscriber(
             const std::function<void(const T&)>& onNext,
             const std::function<void()>& onCompleted
         ) :
@@ -30,7 +30,7 @@ namespace mahorx
             m_onCompleted(onCompleted)
         {}
 
-        Subscribe(
+        Subscriber(
             const std::function<void(const T&)>& onNext,
             const std::function<void(std::exception)>& onError,
             const std::function<void()>& onCompleted
@@ -64,7 +64,7 @@ namespace mahorx
         std::function<void()> m_onCompleted;
     };
 
-    constexpr struct Subscribe_Fn
+    constexpr struct Subscriber_Fn
     {
         template<class Func>
         struct ArgsOnNextError;
@@ -123,30 +123,30 @@ namespace mahorx
         }
 
         template<class T, class Func>
-        friend auto operator | (const T& source, const Subscribe_Fn& fn)
+        friend auto operator | (const T& source, const Subscriber_Fn& fn)
         {
-            return source->subscribe(std::make_shared<Subscribe<T::element_type::out_type>>());
+            return source->subscribe(std::make_shared<Subscriber<T::element_type::out_type>>());
         }
 
         template<class T, class Func>
         friend auto operator | (const T& source, const ArgsOnNext<Func>& args)
         {
-            return source->subscribe(std::make_shared<Subscribe<T::element_type::out_type>>(args.onNext));
+            return source->subscribe(std::make_shared<Subscriber<T::element_type::out_type>>(args.onNext));
         }
         template<class T, class Func>
         friend auto operator | (const T& source, const ArgsOnNextError<Func>& args)
         {
-            return source->subscribe(std::make_shared<Subscribe<T::element_type::out_type>>(args.onNext, args.onError));
+            return source->subscribe(std::make_shared<Subscriber<T::element_type::out_type>>(args.onNext, args.onError));
         }
         template<class T, class Func>
         friend auto operator | (const T& source, const ArgsOnNextCompleted<Func>& args)
         {
-            return source->subscribe(std::make_shared<Subscribe<T::element_type::out_type>>(args.onNext, args.onCompleted));
+            return source->subscribe(std::make_shared<Subscriber<T::element_type::out_type>>(args.onNext, args.onCompleted));
         }
         template<class T, class Func>
         friend auto operator | (const T& source, const ArgsOnNextErrorCompleted<Func>& args)
         {
-            return source->subscribe(std::make_shared<Subscribe<T::element_type::out_type>>(args.onNext, args.onError, args.onCompleted));
+            return source->subscribe(std::make_shared<Subscriber<T::element_type::out_type>>(args.onNext, args.onError, args.onCompleted));
         }
     }subscribe;
 }
