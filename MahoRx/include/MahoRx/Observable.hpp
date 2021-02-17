@@ -64,11 +64,11 @@ namespace mahorx
         /// </summary>
         Observable<T> where(const std::function<bool(const T&)>& pred)
         {
-            return Observable::Create<Operators::WhereObservable<T>>(m_source, pred);
+            return Observable::Create<Operators::WhereObservable>(m_source, pred);
         }
         Observable<T> where(const std::function<bool(const T&, size_t)>& pred)
         {
-            return Observable::Create<Operators::WhereObservable<T>>(m_source, pred);
+            return Observable::Create<Operators::WhereObservable>(m_source, pred);
         }
     protected:
         std::shared_ptr<BaseType<T>> m_source;
