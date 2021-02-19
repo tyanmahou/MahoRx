@@ -66,6 +66,9 @@
     <ClInclude Include="include\MahoRx\Schedulers\ImmediateScheduler.hpp">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
+    <ClInclude Include="include\MahoRx\Operators\Delay.hpp">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="examples\Where\main.cpp">

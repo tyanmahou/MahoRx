@@ -4,7 +4,7 @@
 #include <functional>
 #include"../Fwd.hpp"
 
-namespace mahorx::Schedulers
+namespace mahorx
 {
     class IScheduler
     {
